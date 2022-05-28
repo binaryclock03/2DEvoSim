@@ -42,7 +42,7 @@ def run(brain, max_input = 128, max_output = 128, max_inter = 128):
         font = pg.font.Font('freesansbold.ttf', 10)
 
         for index in range(max_input):
-            x = int((((1800-20)/128) * index) + 10)
+            x = int((((1800-20)/max_input) * index) + 10)
             if index%10 == 9:
                 color = (0,0,255)
             else:
@@ -50,7 +50,7 @@ def run(brain, max_input = 128, max_output = 128, max_inter = 128):
             pg.draw.circle(display, color, (x,200), 5)
 
         for index in range(max_output):
-            x = int((((1800-20)/128) * index) + 10)
+            x = int((((1800-20)/max_output) * index) + 10)
             if index%10 == 9:
                 color = (0,0,255)
             else:
@@ -63,13 +63,13 @@ def run(brain, max_input = 128, max_output = 128, max_inter = 128):
             adr_b = connection.adr_b
             if adr_b < 128:
                 adr_b += 256
-                xb = int((((1800-20)/128) * (adr_b%128)) + 10)
+                xb = int((((1800-20)/max_input) * (adr_b%128)) + 10)
                 yb = 600
             else:
                 xb, yb = inter.get(adr_b)
 
             if adr_a < 128:
-                xa = int((((1800-20)/128) * (adr_a%128)) + 10)
+                xa = int((((1800-20)/max_output) * (adr_a%128)) + 10)
                 ya = 200
             else:
                 xa, ya = inter.get(adr_a)
