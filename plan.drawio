@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="yg7IqM9J5nl_mzUDm_qV" name="Page-1">
-        <mxGraphModel dx="1392" dy="505" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1362" dy="480" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -253,7 +253,7 @@
                 <mxCell id="gWObZc9pJvgN-Cl8AsEd-108" value="Extends" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;rounded=1;" parent="gWObZc9pJvgN-Cl8AsEd-107" connectable="0" vertex="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="0-127 sensors&lt;br&gt;128-255 inters&lt;br&gt;256-383&amp;nbsp; actions" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="3" value="0-127 sensors&lt;br&gt;128-255 inters&lt;br&gt;256-383&amp;nbsp; actions" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="902.5" y="480" width="122.5" height="50" as="geometry"/>
                 </mxCell>
             </root>
