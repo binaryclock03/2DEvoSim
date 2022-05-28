@@ -114,14 +114,14 @@ class NeuralNet():
                     self.neurons[connection.adr_b].depth > neuron.depth): #Check if next interneuron is self and if its depth is lower
                     current_path = self._check_path(connection.adr_b,to_return,depth+1,valid)      #Check path of next neuron
                 
-                if current_path != []: #Checks if theres anything to add
+                if current_path != set(): #Checks if theres anything to add
                     current_path.add(index)
                     to_return.update(current_path)
             # Check for backwards connections
             elif self.neurons[connection.adr_b].depth != None and connection.adr_a == index and self.neurons[connection.adr_b].depth < neuron.depth: 
                 to_return.add(index)
         if end:
-            return []
+            return set()
         else:
             return to_return     
     
