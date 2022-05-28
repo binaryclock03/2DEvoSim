@@ -13,32 +13,34 @@ class Neuron():
         self._address = clamp(address, 0, 255)
 
     def get_address(self):
-        return self.address
+        return self._address
 
-    def activate(self, action="None"):
+    def activate(self, action):
         pass
 
 class InterNeuron(Neuron):
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
 
-    def activate(self, action="None"):
+    def activate(self, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming))
 
-class SensorNeuron(Neuron):
-    def __init__(self):
-        super().__init__(self)
+class SensorNeuron(Neuron,):
+    def __init__(self, function):
+        super().__init__()
+        self.function =  function
     
-    def activate(self, action="None"):
+    def activate(self, action):
         if action == "Sensor":
-            self.value = self.function
+            self.value = self.function()
 
 class ActionNeuron(Neuron):
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, function):
+        super().__init__()
+        self.function =  function
     
-    def activate(self, action="None"):
+    def activate(self, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming))
         if action == "Action" and random.random()<self.value:
@@ -60,7 +62,12 @@ class NeuralNet():
             self.connections.append(Connection(gene))
         
         for index in range(383):
-            self.neurons.append(Neuron())
+            neuron = Neuron()
+            neuron.set_address(index)
+            self.neurons.append(neuron)
+    
+    def insertNeuron(self, index:int, neuron:Neuron):
+        self.neurons[index] = neuron
 
     def activate(self):
         for neuron in self.neurons:
@@ -80,4 +87,4 @@ class NeuralNet():
             neuron.activate("Sum")
 
         for neuron in self.neurons:
-            neuron.activate("Activate")
+            neuron.activate("Action")
