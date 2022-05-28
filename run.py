@@ -1,16 +1,16 @@
 import time
 from genome import Genome
 import netObjects as nt
+import display
 
 def testSensor():
     return 1
 
 def testAction(self):
     print(self._address)
-    pass
 
 if __name__ == "__main__":
-    genome = Genome(10, max_inter=0)
+    genome = Genome(4)
     brain = nt.NeuralNet()
     brain.build_net(genome)
 
@@ -29,3 +29,5 @@ if __name__ == "__main__":
         brain.activate()
     end = time.time()
     print(f"time elapsed {end-start}")
+
+    display.run(brain)

@@ -61,7 +61,7 @@ class NeuralNet():
         for gene in genome.genes:
             self.connections.append(Connection(gene))
         
-        for index in range(383):
+        for index in range(384):
             neuron = Neuron()
             neuron.set_address(index)
             self.neurons.append(neuron)
