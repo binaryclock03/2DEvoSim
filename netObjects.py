@@ -97,21 +97,24 @@ class NeuralNet():
             to_return = []
         neuron = self.neurons[index]
         
-        if neuron.get_address() >= 256:
-            return [neuron.get_address()]
+        if index >= 256:
+            return [index]
         else:
             for connection in self.connections:
-                if connection.adr_a == index and connection.adr_a != connection.adr_b and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return):
+                current_path = []
+                if connection.adr_a == index and connection.adr_a != connection.adr_b and not (connection.adr_b in current_path or connection.adr_b + 256 in current_path):
                     if connection.adr_b < 128:
-                        to_return = self.check_path(connection.adr_b + 256,to_return)
+                        current_path = self.check_path(connection.adr_b + 256,current_path)
                     else:
-                        to_return = self.check_path(connection.adr_b,to_return)
-                    if to_return != []:
-                        to_return.append(index)            
-            if index in to_return:
-                return to_return
-            else: 
-                return []
+                        current_path = self.check_path(connection.adr_b,current_path)
+                    if current_path != []:
+                        current_path.append(index)
+                        to_return.extend(current_path)
+            return to_return     
+            # if index in to_return:
+            #     return to_return
+            # else: 
+            #     return []
     
     def check_paths(self) -> set:
         active_adrs = set()
