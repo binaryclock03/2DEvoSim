@@ -90,28 +90,32 @@ class NeuralNet():
         for neuron in self.neurons:
             neuron.activate("Action")
     
-    def check_path(self,index:int,to_return:list = None,depth:int = 0) -> list:
-        if to_return == None:
-            to_return = []
+    def _check_path(self,index:int,to_return:list = [],depth:int = 0) -> list:
         neuron = self.neurons[index]
+        
+        # Checks neuron already has a depth if it needs to be overwritten
         if neuron.depth == None:
             neuron.depth = depth
         elif depth < neuron.depth:
             neuron.depth = depth
+        
         end = True
         for connection in self.connections:
-            current_path = []    
-            if connection.adr_a == index and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return):
+            current_path = []
+            # Checks if connection is from current neuron               no touch #and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return)
+            if connection.adr_a == index :
                 end = False
-                if connection.adr_b < 128:
+                if connection.adr_b < 128: #Check if next neuron is an action neuron                       
                     current_path.append(connection.adr_b+256)
-                else:
-                    if (connection.adr_a != connection.adr_b) and (self.neurons[connection.adr_b].depth == None or self.neurons[connection.adr_b].depth > neuron.depth):
-                        current_path = self.check_path(connection.adr_b,to_return,depth+1)
-                if current_path != []:
+                elif (connection.adr_a != connection.adr_b) and (self.neurons[connection.adr_b].depth == None or 
+                    self.neurons[connection.adr_b].depth > neuron.depth): #Check if next interneuron is self and if its depth is lower
+                    current_path = self._check_path(connection.adr_b,to_return,depth+1)      #Check path of next neuron
+                
+                if current_path != []: #Checks if theres anything to add
                     current_path.append(index)
                     to_return.extend(current_path)
-            elif self.neurons[connection.adr_b].depth != None and connection.adr_a == index and self.neurons[connection.adr_b].depth < neuron.depth:
+            # Check for backwards connections
+            elif self.neurons[connection.adr_b].depth != None and connection.adr_a == index and self.neurons[connection.adr_b].depth < neuron.depth: 
                 to_return.append(index)
         if end:
             return []
@@ -122,5 +126,5 @@ class NeuralNet():
         active_adrs = set()
         for connection in self.connections:
             if connection.adr_a < 128:
-                active_adrs.update(set(self.check_path(connection.adr_a)))
+                active_adrs.update(set(self._check_path(connection.adr_a)))
         return active_adrs
