@@ -5,7 +5,7 @@ import random
 Genome = NewType("Genome",object)
 
 class Genome():
-    def __init__(self,number_of_genes:int,genes:List = None,max_input:int = 0,max_output:int = 0,max_inter:int = 0) -> None:
+    def __init__(self,number_of_genes:int,genes:List = None,max_input:int = 128,max_output:int = 128,max_inter:int = 128) -> None:
         
         self.number_of_genes = number_of_genes
         
@@ -18,25 +18,18 @@ class Genome():
         if genes != None:
             self.genes = genes
         else:
-            if max_input + max_inter + max_inter == 0:
+            if max_input == None and max_output == None and max_inter == None:
                 for x in range(number_of_genes):
                     gene = hex(random.randint(0,(16**8) - 1))
                     self.genes.append(gene.replace("0x", ""))
             else:
-                for x in range(number_of_genes):
-                    if max_input == 0:
-                        max_input = 128
-                    if max_output == 0:
-                        max_output = 128
-                    if max_inter == 0:
-                        max_inter = 256
-                        
+                for x in range(number_of_genes):  
                     strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "")
-                    possible_in_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+128))
+                    possible_in_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+129))
                     in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
-                    possible_out_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+128))
+                    possible_out_adr = list(range(self.max_output+1)) + list(range(128,self.max_inter+129))
                     out_adr = hex(random.choice(possible_out_adr)).replace("0x", "").zfill(2)
-                    gene = in_adr + strength + out_adr
+                    gene = in_adr + out_adr + strength
                     self.genes.append(gene)
                    
     def __str__(self) -> str:
