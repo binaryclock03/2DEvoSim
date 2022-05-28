@@ -32,9 +32,9 @@ class Genome():
                         max_inter = 256
                         
                     strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "")
-                    possible_in_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+1))
+                    possible_in_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+128))
                     in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
-                    possible_out_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+1))
+                    possible_out_adr = list(range(self.max_input+1)) + list(range(128,self.max_inter+128))
                     out_adr = hex(random.choice(possible_out_adr)).replace("0x", "").zfill(2)
                     gene = in_adr + strength + out_adr
                     self.genes.append(gene)
@@ -66,5 +66,3 @@ class Genome():
         new_genes = self.genes
         new_genes[index] = new_gene
         return Genome(self.number_of_genes,new_genes)
-print(Genome(4))
-print(Genome(4,max_input=4,max_output=4,max_inter=256))
