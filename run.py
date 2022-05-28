@@ -1,7 +1,6 @@
 import time
 from genome import Genome
 import netObjects as nt
-import multiprocessing as mp
 
 def testSensor():
     return 1
@@ -27,7 +26,6 @@ if __name__ == "__main__":
 
     start = time.time()
     for index in range(1):
-        brain.activate()
         brain.activate()
     end = time.time()
     print(f"time elapsed {end-start}")

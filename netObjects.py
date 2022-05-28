@@ -1,5 +1,5 @@
 from genome import Genome
-from util import clamp, scale
+from util import clamp
 import random
 import math
 
@@ -10,34 +10,37 @@ class Neuron():
         self.incoming:list = []
     
     def set_address(self, address:int):
-        self._address = clamp(address, 0, 383)
+        self._address = clamp(address, 0, 384)
 
     def get_address(self):
         return self._address
 
-    def activate(self, action="None"):
+    def activate(self, action):
         pass
+
 class InterNeuron(Neuron):
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
 
-    def activate(self, action="None"):
+    def activate(self, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming))
 
-class SensorNeuron(Neuron):
-    def __init__(self):
-        super().__init__(self)
+class SensorNeuron(Neuron,):
+    def __init__(self, function):
+        super().__init__()
+        self.function =  function
     
-    def activate(self, action="None"):
+    def activate(self, action):
         if action == "Sensor":
-            self.value = self.function
+            self.value = self.function()
 
 class ActionNeuron(Neuron):
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, function):
+        super().__init__()
+        self.function =  function
     
-    def activate(self, action="None"):
+    def activate(self, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming))
         if action == "Action" and random.random()<self.value:
@@ -47,7 +50,7 @@ class Connection():
     def __init__(self, gene):
         self.adr_a = int(gene[0:2], base=16)
         self.adr_b = int(gene[2:4], base=16)
-        self.strength = scale(int(gene[4:8], base=16), 0, 65535, -4.0, 4.0)
+        self.strength = int(gene[4:8], base=16)
 
 class NeuralNet():
     def __init__(self):
@@ -58,10 +61,13 @@ class NeuralNet():
         for gene in genome.genes:
             self.connections.append(Connection(gene))
         
-        for index in range(384):
+        for index in range(383):
             neuron = Neuron()
             neuron.set_address(index)
             self.neurons.append(neuron)
+    
+    def insertNeuron(self, index:int, neuron:Neuron):
+        self.neurons[index] = neuron
 
     def activate(self):
         for neuron in self.neurons:
@@ -81,7 +87,7 @@ class NeuralNet():
             neuron.activate("Sum")
 
         for neuron in self.neurons:
-            neuron.activate("Activate")
+            neuron.activate("Action")
     
     def check_path(self,index:int,to_return:list = None) -> list:
         # neuron_address_to_index = {}
