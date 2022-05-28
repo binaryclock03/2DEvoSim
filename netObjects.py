@@ -55,7 +55,7 @@ class Connection():
 
 class NeuralNet():
     def __init__(self):
-        self.neurons:list = []
+        self.neurons:dict = {}
         self.connections:list = []
     
     def build_net(self, genome:Genome):
@@ -65,14 +65,34 @@ class NeuralNet():
         for index in range(384):
             neuron = Neuron()
             neuron.set_address(index)
-            self.neurons.append(neuron)
+            self.neurons.update({index:neuron})
     
     def insertNeuron(self, index:int, neuron:Neuron):
         self.neurons[index] = neuron
 
+    def optimize(self):
+        valid_neurons = self.check_paths()
+        for index in range(len(self.neurons)):
+            if not(index in valid_neurons):
+                del self.neurons[index]
+        
+        todel = []
+        for x, connection in enumerate(self.connections):
+            adr_a = connection.adr_a
+            adr_b = connection.adr_b
+            if adr_b < 128:
+                adr_b += 256
+
+            if not(adr_a in valid_neurons) or not(adr_b in valid_neurons):
+                todel.append(x)
+        
+        todel.sort(reverse=True)
+        for i in todel:
+            del self.connections[i]
+
     def activate(self):
-        for neuron in self.neurons:
-            neuron.activate("Sensor")
+        for key in self.neurons:
+            self.neurons[key].activate("Sensor")
 
         for connection in self.connections:
             adr_a = connection.adr_a
@@ -84,11 +104,11 @@ class NeuralNet():
             value = value * connection.strength
             self.neurons[adr_b].incoming.append(value)
             
-        for neuron in self.neurons:
-            neuron.activate("Sum")
+        for key in self.neurons:
+            self.neurons[key].activate("Sum")
 
-        for neuron in self.neurons:
-            neuron.activate("Action")
+        for key in self.neurons:
+            self.neurons[key].activate("Action")
     
     def _check_path(self,index:int,to_return:list = [],depth:int = 0) -> list:
         neuron = self.neurons[index]
