@@ -10,7 +10,7 @@ class Neuron():
         self.incoming:list = []
     
     def set_address(self, address:int):
-        self._address = clamp(address, 0, 255)
+        self._address = clamp(address, 0, 383)
 
     def get_address(self):
         return self._address
@@ -44,7 +44,7 @@ class ActionNeuron(Neuron):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming))
         if action == "Action" and random.random()<self.value:
-            self.function()
+            self.function(self)
 
 class Connection():
     def __init__(self, gene):
@@ -61,7 +61,7 @@ class NeuralNet():
         for gene in genome.genes:
             self.connections.append(Connection(gene))
         
-        for index in range(383):
+        for index in range(384):
             neuron = Neuron()
             neuron.set_address(index)
             self.neurons.append(neuron)
