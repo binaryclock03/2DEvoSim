@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="yg7IqM9J5nl_mzUDm_qV" name="Page-1">
-        <mxGraphModel dx="1587" dy="545" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1460" dy="436" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -62,7 +62,7 @@
                 <mxCell id="gWObZc9pJvgN-Cl8AsEd-30" value="Connection" style="swimlane;rounded=1;" parent="1" vertex="1">
                     <mxGeometry x="715" y="300" width="145" height="150" as="geometry"/>
                 </mxCell>
-                <mxCell id="gWObZc9pJvgN-Cl8AsEd-32" value="start link adr: hex 2&lt;br&gt;end link adr: hex 2&lt;br&gt;strength: hex 4&lt;br&gt;&lt;br&gt;from_genome(genome)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;rounded=0;whiteSpace=wrap;html=1;" parent="gWObZc9pJvgN-Cl8AsEd-30" vertex="1">
+                <mxCell id="gWObZc9pJvgN-Cl8AsEd-32" value="start link adr: hex 2&lt;br&gt;end link adr: hex 2&lt;br&gt;strength: hex 4&lt;br&gt;&lt;br&gt;from_gene(gene)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;rounded=0;whiteSpace=wrap;html=1;" parent="gWObZc9pJvgN-Cl8AsEd-30" vertex="1">
                     <mxGeometry x="2.5" y="25" width="140" height="125" as="geometry"/>
                 </mxCell>
                 <mxCell id="OubXks9zK13v49aWxOXn-16" value="Constraints:" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
