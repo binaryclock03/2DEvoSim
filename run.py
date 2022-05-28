@@ -10,7 +10,7 @@ def testAction(self):
     print(self._address)
 
 if __name__ == "__main__":
-    genome = Genome(16)
+    genome = Genome(10, max_input=10, max_output=10, max_inter=5)
     brain = nt.NeuralNet()
     brain.build_net(genome)
 
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     end = time.time()
     print(f"time elapsed {end-start}")
 
-    display.run(brain)
+    display.run(brain, max_input=10, max_output=10, max_inter=5)

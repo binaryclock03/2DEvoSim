@@ -1,23 +1,20 @@
 import random
-from re import L
-from tkinter import Y
 import pygame as pg
 import netObjects as nt
 
-def run(brain):
+def run(brain, max_input = 128, max_output = 128, max_inter = 128):
     pg.init()
     display = pg.display.set_mode((1800,800))
     pg.display.set_caption("Net Display")
 
     inter = {}
-    for index in range(128):
+    for index in range(max_inter):
         x = random.randrange(10,1790)
         y = random.randrange(300,500)
 
         inter.update({index+128:(x,y)})
     
     while True:
-        pressed = pg.key.get_pressed()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -26,7 +23,7 @@ def run(brain):
         display.fill((255,255,255))
         font = pg.font.Font('freesansbold.ttf', 10)
 
-        for index in range(128):
+        for index in range(max_input):
             x = int((((1800-20)/128) * index) + 10)
             if index%10 == 9:
                 color = (0,0,255)
@@ -34,7 +31,7 @@ def run(brain):
                 color = (255,0,0)
             pg.draw.circle(display, color, (x,200), 5)
 
-        for index in range(128):
+        for index in range(max_output):
             x = int((((1800-20)/128) * index) + 10)
             if index%10 == 9:
                 color = (0,0,255)
@@ -60,14 +57,14 @@ def run(brain):
 
             pg.draw.line(display, (random.randrange(0,255),random.randrange(0,255),random.randrange(0,255)), (xa,ya), (xb,yb), width=5)
 
-        for index in range(128, 255):
+        for index in range(128, max_inter+128):
             coords = inter.get(index)
 
             text = font.render(str(index), True, (100,100,100))
-            textRect = text.get_rect()
-            textRect.center = coords
+            text_rect = text.get_rect()
+            text_rect.center = coords
 
             pg.draw.circle(display, (255,0,255), coords, 5)
-            display.blit(text, textRect)
+            display.blit(text, text_rect)
         
         pg.display.update()
