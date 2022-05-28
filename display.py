@@ -55,7 +55,11 @@ def run(brain, max_input = 128, max_output = 128, max_inter = 128):
             else:
                 xa, ya = inter.get(adr_a)
 
-            pg.draw.line(display, (random.randrange(0,255),random.randrange(0,255),random.randrange(0,255)), (xa,ya), (xb,yb), width=5)
+            color = (random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))
+            pg.draw.line(display, color, (xa,ya), (xb,yb), width=5)
+            dx = xb-xa
+            dy = yb-ya
+            pg.draw.line(display, color, (xa+dx*0.8,ya+dy*0.8) , (xa+dx*0.85,ya+dy*0.85), width=10)
 
         for index in range(128, max_inter+128):
             coords = inter.get(index)
