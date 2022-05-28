@@ -8,6 +8,7 @@ class Neuron():
         self._address:int = 0
         self.value:float = 0
         self.incoming:list = []
+        self.depth:int = 0
     
     def set_address(self, address:int):
         self._address = clamp(address, 0, 384)
@@ -89,24 +90,28 @@ class NeuralNet():
         for neuron in self.neurons:
             neuron.activate("Action")
     
-    def check_path(self,index:int,to_return:list = None) -> list:
+    def check_path(self,index:int,to_return:list = None,depth:int = 0) -> list:
         if to_return == None:
             to_return = []
         neuron = self.neurons[index]
-        
-        if index >= 256:
-            return [index]
+        neuron.depth = depth
+        end = True
+        for connection in self.connections:
+            current_path = []    
+            if connection.adr_a == index and connection.adr_a != connection.adr_b and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return):
+                end = False
+                if connection.adr_b < 128:
+                    current_path.append(connection.adr_b+256)
+                else:
+                    current_path = self.check_path(connection.adr_b,to_return,depth+1)
+                if current_path != []:
+                    current_path.append(index)
+                    to_return.extend(current_path)
+            elif connection.adr_a == index and self.neurons[connection.adr_b].depth < neuron.depth:
+                to_return.append(index)
+        if end:
+            return []
         else:
-            for connection in self.connections:
-                current_path = []    
-                if connection.adr_a == index and connection.adr_a != connection.adr_b and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return):
-                    if connection.adr_b < 128:
-                        current_path = self.check_path(connection.adr_b + 256,to_return)
-                    else:
-                        current_path = self.check_path(connection.adr_b,to_return)
-                    if current_path != []:
-                        current_path.append(index)
-                        to_return.extend(current_path)
             return to_return     
     
     def check_paths(self) -> set:
