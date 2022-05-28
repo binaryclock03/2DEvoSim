@@ -17,11 +17,19 @@ def run(brain):
 
         for index in range(128):
             x = int((((1300-20)/128) * index) + 10)
-            pg.draw.circle(display, (255,0,0), (x,200), 4)
+            if index%10 == 9:
+                color = (0,0,255)
+            else:
+                color = (255,0,0)
+            pg.draw.circle(display, color, (x,200), 4)
 
         for index in range(128):
             x = int((((1300-20)/128) * index) + 10)
-            pg.draw.circle(display, (0,255,0), (x,600), 4)
+            if index%10 == 9:
+                color = (0,0,255)
+            else:
+                color = (0,255,0)
+            pg.draw.circle(display, color, (x,600), 4)
 
         for connection in brain.connections:
             adr_a = connection.adr_a
