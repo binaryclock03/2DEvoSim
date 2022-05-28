@@ -108,7 +108,6 @@ class NeuralNet():
                         to_return = self.check_path(connection.adr_b,to_return)
                     if to_return != []:
                         to_return.append(index)            
-            print(to_return)
             if index in to_return:
                 return to_return
             else: 
