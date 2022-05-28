@@ -10,7 +10,7 @@ def testAction(self):
     print(self._address)
 
 if __name__ == "__main__":
-    genome = Genome(10, max_inter=1)
+    genome = Genome(16)
     brain = nt.NeuralNet()
     brain.build_net(genome)
 
