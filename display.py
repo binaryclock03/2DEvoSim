@@ -1,3 +1,4 @@
+from math import sqrt
 import random
 import pygame as pg
 import netObjects as nt
@@ -59,7 +60,13 @@ def run(brain, max_input = 128, max_output = 128, max_inter = 128):
             pg.draw.line(display, color, (xa,ya), (xb,yb), width=5)
             dx = xb-xa
             dy = yb-ya
-            pg.draw.line(display, color, (xa+dx*0.8,ya+dy*0.8) , (xa+dx*0.85,ya+dy*0.85), width=10)
+            length = sqrt(dx**2 + dy**2)
+            dx = dx/length
+            dy = dy/length
+            arrowPos = 0.6
+            arrowWidth = 10
+            arrowLength = 15
+            pg.draw.polygon(display, color, [(xa+dx*length*arrowPos+dx*arrowLength,ya+dy*length*arrowPos+dy*arrowLength), (xa+dx*length*arrowPos+dy*arrowWidth,ya+dy*length*arrowPos+dx*-arrowWidth), (xa+dx*length*arrowPos+dy*-arrowWidth,ya+dy*length*arrowPos+dx*arrowWidth)])
 
         for index in range(128, max_inter+128):
             coords = inter.get(index)
