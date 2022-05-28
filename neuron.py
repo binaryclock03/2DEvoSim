@@ -1,5 +1,5 @@
 from util import clamp
-class BaseNeuron():
+class Neuron():
     def __init__(self):
         _address:int
         _strength:float
@@ -15,14 +15,14 @@ class BaseNeuron():
 
     def get_strength(self):
         return self._strength
-class InterNeuron(BaseNeuron):
+class InterNeuron(Neuron):
     def __init__(self):
         super().__init__(self)
     
     def calc_incoming():
         pass
 
-class IONeuron(BaseNeuron):
+class IONeuron(Neuron):
     def __init__(self):
         super().__init__(self)
         self.function: function
@@ -32,11 +32,11 @@ class SensorNeuron(IONeuron):
         super().__init__(self)
     
     def read_sensor(self):
-        pass
+        self._strength = self.function
 
 class ActionNeuron(IONeuron, InterNeuron):
     def __init__(self):
         super().__init__(self)
     
-    def preform_action():
-        pass
+    def preform_action(self):
+        self.function()
