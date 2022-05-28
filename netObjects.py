@@ -8,7 +8,7 @@ class Neuron():
         self._address:int = 0
         self.value:float = 0
         self.incoming:list = []
-        self.depth:int = 0
+        self.depth:int = None
     
     def set_address(self, address:int):
         self._address = clamp(address, 0, 384)
@@ -94,20 +94,24 @@ class NeuralNet():
         if to_return == None:
             to_return = []
         neuron = self.neurons[index]
-        neuron.depth = depth
+        if neuron.depth == None:
+            neuron.depth = depth
+        elif depth < neuron.depth:
+            neuron.depth = depth
         end = True
         for connection in self.connections:
             current_path = []    
-            if connection.adr_a == index and connection.adr_a != connection.adr_b and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return):
+            if connection.adr_a == index and not (connection.adr_b in to_return or connection.adr_b + 256 in to_return):
                 end = False
                 if connection.adr_b < 128:
                     current_path.append(connection.adr_b+256)
                 else:
-                    current_path = self.check_path(connection.adr_b,to_return,depth+1)
+                    if (connection.adr_a != connection.adr_b) and (self.neurons[connection.adr_b].depth == None or self.neurons[connection.adr_b].depth > neuron.depth):
+                        current_path = self.check_path(connection.adr_b,to_return,depth+1)
                 if current_path != []:
                     current_path.append(index)
                     to_return.extend(current_path)
-            elif connection.adr_a == index and self.neurons[connection.adr_b].depth < neuron.depth:
+            elif self.neurons[connection.adr_b].depth != None and connection.adr_a == index and self.neurons[connection.adr_b].depth < neuron.depth:
                 to_return.append(index)
         if end:
             return []
