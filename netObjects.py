@@ -1,5 +1,5 @@
 from genome import Genome
-from util import clamp
+from util import clamp, scale
 import random
 import math
 
@@ -50,7 +50,7 @@ class Connection():
     def __init__(self, gene):
         self.adr_a = int(gene[0:2], base=16)
         self.adr_b = int(gene[2:4], base=16)
-        self.strength = int(gene[4:8], base=16)
+        self.strength = scale(int(gene[4:8], base=16), 0, 65535, -4.0, 4.0)
 
 class NeuralNet():
     def __init__(self):

@@ -7,11 +7,11 @@ def testSensor():
     return 1
 
 def testAction(self):
-    #print(self._address)
+    print(self._address)
     pass
 
 if __name__ == "__main__":
-    genome = Genome(100, max_inter=0)
+    genome = Genome(10, max_inter=0)
     brain = nt.NeuralNet()
     brain.build_net(genome)
 
@@ -26,7 +26,8 @@ if __name__ == "__main__":
         brain.insertNeuron(index+256, neuron)
 
     start = time.time()
-    for index in range(1000):
+    for index in range(1):
+        brain.activate()
         brain.activate()
     end = time.time()
     print(f"time elapsed {end-start}")
