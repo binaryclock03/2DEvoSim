@@ -25,7 +25,7 @@ class InterNeuron(Neuron):
     def __init__(self):
         super().__init__()
 
-    def activate(self, simulation, action):
+    def activate(self, creature, simulation, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming)+sum(self.incoming_last))
         if action == "Action":
@@ -38,9 +38,9 @@ class SensorNeuron(Neuron):
         self.function =  function
         self.depth:int = 0
     
-    def activate(self, simulation, action):
+    def activate(self, creature, simulation, action):
         if action == "Sensor":
-            self.value = self.function(simulation)
+            self.value = self.function(creature, simulation)
 
 class ActionNeuron(Neuron):
     def __init__(self, pos_function, neg_function):
@@ -48,14 +48,14 @@ class ActionNeuron(Neuron):
         self.pos_function =  pos_function
         self.neg_function =  neg_function
     
-    def activate(self, simulation, action):
+    def activate(self, creature, simulation, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming)+sum(self.incoming_last))
         if action == "Action" and random.random()<abs(self.value):
             if self.value > 0:
-                self.pos_function(self, simulation)
+                self.pos_function(self, creature, simulation)
             else:
-                self.neg_function(self, simulation)
+                self.neg_function(self, creature, simulation)
             self.incoming_last = self.incoming_next
             self.incoming_next = []
 
@@ -108,9 +108,9 @@ class NeuralNet():
                 self.max_depth = self.neurons[key].depth
         #self.max_depth += 1
 
-    def activate(self, simulation):
+    def activate(self, creature, simulation):
         for key in self.neurons:
-            self.neurons[key].activate(simulation, "Sensor")
+            self.neurons[key].activate(creature, simulation, "Sensor")
 
         for i in range(self.max_depth):
             for connection in self.connections:
@@ -128,10 +128,10 @@ class NeuralNet():
                     self.neurons[adr_b].incoming.append(value)
                 
             for key in self.neurons:
-                self.neurons[key].activate(simulation, "Sum")
+                self.neurons[key].activate(creature, simulation, "Sum")
 
         for key in self.neurons:
-            self.neurons[key].activate(simulation, "Action")
+            self.neurons[key].activate(creature, simulation, "Action")
     
     def _check_path(self,index:int,to_return:set = set(),depth:int = 0,valid:set = set()) -> set:
         if depth == 0:

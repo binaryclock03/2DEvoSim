@@ -9,7 +9,12 @@ class Simulation():
     
     def add_to_sim(self, creature):
         creature.simulation = self
-        self.grid[rand.randrange(0, self.grid_bounds[0])][rand.randrange(0, self.grid_bounds[1])] = creature.id
+        while True:
+            x = rand.randrange(0, self.grid_bounds[0])
+            y = rand.randrange(0, self.grid_bounds[1])
+            if self.grid[x][y] == 0:
+                break
+        self.grid[x][y] = creature.id
         self.creatures.append(creature)
 
     def get_creature_position(self, id):
@@ -44,7 +49,7 @@ class Creature():
         self.simulation = None
 
     def simulate(self):
-        self.brain.activate(self.simulation)
+        self.brain.activate(self, self.simulation)
         pass
 
     def build_from_genome(self, genome):

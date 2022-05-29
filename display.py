@@ -3,7 +3,7 @@ import random
 import pygame as pg
 import netObjects as nt
 
-def run(brain):
+def show_brain(brain):
     pg.init()
     display = pg.display.set_mode((1800,800))
     pg.display.set_caption("Net Display")
@@ -106,3 +106,12 @@ def run(brain):
             display.blit(text, text_rect)
         
         pg.display.update()
+
+def play():
+    pg.init()
+    display = pg.display.set_mode((800,800))
+    pg.display.set_caption("Creatures Playback Display")
+
+    for x, row in enumerate(grid):
+        for y, num in enumerate(row):
+            pass
