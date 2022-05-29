@@ -128,7 +128,7 @@ class NeuralNet():
                 end = False
                 if connection.adr_b < 128: #Check if next neuron is an action neuron                       
                     current_path.add(connection.adr_b+256)
-                    if self.neurons[connection.adr_b+256].depth < neuron.depth + 1:
+                    if self.neurons[connection.adr_b+256].depth == None or self.neurons[connection.adr_b+256].depth < neuron.depth + 1:
                         self.neurons[connection.adr_b+256].depth = neuron.depth + 1
                     
                 elif connection.adr_b in valid:
