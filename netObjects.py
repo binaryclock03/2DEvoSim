@@ -8,6 +8,8 @@ class Neuron():
         self._address:int = 0
         self.value:float = 0
         self.incoming:list = []
+        self.incoming_last:list =[]
+        self.incoming_next:list = []
         self.depth:int = None
     
     def set_address(self, address:int):
@@ -25,27 +27,37 @@ class InterNeuron(Neuron):
 
     def activate(self, action):
         if action == "Sum":
-            self.value = math.tanh(sum(self.incoming))
+            self.value = math.tanh(sum(self.incoming)+sum(self.incoming_last))
+        if action == "Action":
+            self.incoming_last = self.incoming_next
+            self.incoming_next = []
 
 class SensorNeuron(Neuron,):
     def __init__(self, function):
         super().__init__()
         self.function =  function
+        self.depth:int = 0
     
     def activate(self, action):
         if action == "Sensor":
             self.value = self.function()
 
 class ActionNeuron(Neuron):
-    def __init__(self, function):
+    def __init__(self, pos_function, neg_function):
         super().__init__()
-        self.function =  function
+        self.pos_function =  pos_function
+        self.neg_function =  neg_function
     
     def activate(self, action):
         if action == "Sum":
-            self.value = math.tanh(sum(self.incoming))
-        if action == "Action" and random.random()<self.value:
-            self.function(self)
+            self.value = math.tanh(sum(self.incoming)+sum(self.incoming_last))
+        if action == "Action" and random.random()<abs(self.value):
+            if self.value > 0:
+                self.pos_function(self)
+            else:
+                self.neg_function(self)
+            self.incoming_last = self.incoming_next
+            self.incoming_next = []
 
 class Connection():
     def __init__(self, gene):
@@ -57,6 +69,7 @@ class NeuralNet():
     def __init__(self):
         self.neurons:dict = {}
         self.connections:list = []
+        self.max_depth:int = 1
     
     def build_net(self, genome:Genome):
         for gene in genome.genes:
@@ -89,23 +102,33 @@ class NeuralNet():
         todel.sort(reverse=True)
         for i in todel:
             del self.connections[i]
+        
+        for key in self.neurons.keys():
+            if self.max_depth < self.neurons[key].depth:
+                self.max_depth = self.neurons[key].depth
+        #self.max_depth += 1
 
     def activate(self):
         for key in self.neurons:
             self.neurons[key].activate("Sensor")
 
-        for connection in self.connections:
-            adr_a = connection.adr_a
-            adr_b = connection.adr_b
-            if adr_b < 128:
-                adr_b += 256
+        for i in range(self.max_depth):
+            for connection in self.connections:
+                adr_a = connection.adr_a
+                adr_b = connection.adr_b
+                if adr_b < 128:
+                    adr_b += 256
 
-            value = self.neurons[adr_a].value
-            value = value * connection.strength
-            self.neurons[adr_b].incoming.append(value)
-            
-        for key in self.neurons:
-            self.neurons[key].activate("Sum")
+                value = self.neurons[adr_a].value
+                value = value * connection.strength
+                if self.neurons[adr_a].depth >= self.neurons[adr_b].depth:
+                    self.neurons[adr_b].incoming_next.append(value)
+                    #print(f"backcon adr_a {adr_a} d {self.neurons[adr_a].depth} adr_b {adr_b} d {self.neurons[adr_b].depth}")
+                else:
+                    self.neurons[adr_b].incoming.append(value)
+                
+            for key in self.neurons:
+                self.neurons[key].activate("Sum")
 
         for key in self.neurons:
             self.neurons[key].activate("Action")

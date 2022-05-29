@@ -10,7 +10,9 @@ def testAction(self):
     print(f"TEST ACTION REPORT: {self._address}")
 
 if __name__ == "__main__":
-    genome = Genome(15, max_input=4, max_output=10, max_inter=2)
+    genome = Genome()
+
+    genome = Genome(15, max_input_index=4, max_output_index=4, max_inter_index=4)
     brain = nt.NeuralNet()
     brain.build_net(genome)
 
@@ -20,7 +22,7 @@ if __name__ == "__main__":
         brain.insertNeuron(index, neuron)
 
     for index in range(127):
-        neuron = nt.ActionNeuron(testAction)
+        neuron = nt.ActionNeuron(testAction, testAction)
         neuron.set_address(index+256)
         brain.insertNeuron(index+256, neuron)
     
@@ -32,7 +34,6 @@ if __name__ == "__main__":
     print(f"time elapsed {end-start}")
 
     # start = time.time()
-    # print(brain.check_paths())
     # end = time.time()
     # print(f"time elapsed {end-start}")
     
