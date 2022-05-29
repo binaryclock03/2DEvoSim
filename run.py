@@ -1,40 +1,42 @@
 import time
 from genome import Genome
-import netObjects as nt
+import simulation as sim
+import functions as f
 import display
 
-def testSensor():
-    return 1
-
-def testAction(self):
-    print(f"TEST ACTION REPORT: {self._address}")
-
 if __name__ == "__main__":
-    genome = Genome()
+    simulation = sim.Simulation()
 
-    genome = Genome(15, max_input_index=4, max_output_index=4, max_inter_index=4)
-    brain = nt.NeuralNet()
-    brain.build_net(genome)
+    sensor_neurons = f.sensor_neurons
+    action_neurons = f.action_neurons
 
-    for index in range(127):
-        neuron = nt.SensorNeuron(testSensor)
-        neuron.set_address(index)
-        brain.insertNeuron(index, neuron)
-
-    for index in range(127):
-        neuron = nt.ActionNeuron(testAction, testAction)
-        neuron.set_address(index+256)
-        brain.insertNeuron(index+256, neuron)
+    for i in range(1,11):
+        genome = Genome(1, genes=["0000ffff"])
+        creature = sim.Creature(i)
+        creature.build_from_genome(genome)
+        creature.add_io_neurons(sensor_neurons, action_neurons)
+        creature.finalize()
+        simulation.add_to_sim(creature)
     
-    brain.optimize()
+    print("before")
+    print(simulation.get_creature_position(1))
+    print(simulation.get_creature_position(2))
+    
+    for i in range(2):
+        simulation.simulate()
+    
+    print("after")
+    print(simulation.get_creature_position(1))
+    print(simulation.get_creature_position(2))
 
-    start = time.time()
-    brain.activate()
-    end = time.time()
-    print(f"time elapsed {end-start}")
+
+    # start = time.time()
+    # brain.activate(None)
+    # end = time.time()
+    # print(f"time elapsed {end-start}")
 
     # start = time.time()
     # end = time.time()
     # print(f"time elapsed {end-start}")
     
-    display.run(brain)
+    #display.run(brain)
