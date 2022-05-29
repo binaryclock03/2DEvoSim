@@ -60,7 +60,7 @@ class Genome():
         new_genes[index_of_gene] = new_gene
         return Genome(self.number_of_genes,genes = new_genes)
     
-    def mutate_gene_bit_flip(self,index_of_gene:int = None) -> Genome:
+    def gene_bit_flip(self,index_of_gene:int = None) -> str:
         if index_of_gene == None:
             index_of_gene = random.randint(0,len(self.genes)-1)
         gene = bin(int('0x'+self.genes[index_of_gene],16))
@@ -77,6 +77,16 @@ class Genome():
             else:
                 new_gene += gene[base+2]
         new_gene = hex(int(new_gene,0)).replace('0x','').zfill(8)
-        new_genes = self.genes.copy()
-        new_genes[index_of_gene] = new_gene
-        return Genome(self.number_of_genes,genes = new_genes)
+        return new_gene
+    
+    def mutate_genome(self,mutation_rate:float) -> Genome:
+        new_genes = []
+        for gene in range(len(self.genes)):
+            if random.random() < mutation_rate:
+                new_genes.append(self.gene_bit_flip(gene))
+            else:
+                new_genes.append(self.genes[gene])
+        self.genes = new_genes
+        
+    def copy(self) -> Genome:
+        return Genome(self.number_of_genes,genes = self.genes)
