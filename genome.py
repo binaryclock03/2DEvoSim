@@ -5,29 +5,29 @@ import random
 Genome = NewType("Genome",object)
 
 class Genome():
-    def __init__(self,number_of_genes:int,genes:List = None,max_input:int = 128,max_output:int = 128,max_inter:int = 128) -> None:
+    def __init__(self,number_of_genes:int,genes:List = None,max_input_index:int = 128,max_output_index:int = 128,max_inter_index:int = 128) -> None:
         
         self.number_of_genes = number_of_genes
         
         self.genes = []
         
-        self.max_input = max_input
-        self.max_output = max_output
-        self.max_inter = max_inter
+        self.max_input_index = max_input_index
+        self.max_output_index = max_output_index
+        self.max_inter_index = max_inter_index
         
         if genes != None:
             self.genes = genes
         else:
-            if max_input == None and max_output == None and max_inter == None:
+            if max_input_index == None and max_output_index == None and max_inter_index == None:
                 for x in range(number_of_genes):
                     gene = hex(random.randint(0,(16**8) - 1))
                     self.genes.append(gene.replace("0x", ""))
             else:
                 for x in range(number_of_genes):  
                     strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "")
-                    possible_in_adr = list(range(self.max_input)) + list(range(128,self.max_inter+128))
+                    possible_in_adr = list(range(self.max_input_index)) + list(range(128,self.max_inter_index+128))
                     in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
-                    possible_out_adr = list(range(self.max_output)) + list(range(128,self.max_inter+128))
+                    possible_out_adr = list(range(self.max_output_index)) + list(range(128,self.max_inter_index+128))
                     out_adr = hex(random.choice(possible_out_adr)).replace("0x", "").zfill(2)
                     gene = in_adr + out_adr + strength
                     self.genes.append(gene)
