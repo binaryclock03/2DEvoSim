@@ -21,7 +21,7 @@ class Genome():
             if max_input_index == None and max_output_index == None and max_inter_index == None:
                 for x in range(number_of_genes):
                     gene = hex(random.randint(0,(16**8) - 1))
-                    self.genes.append(gene.replace("0x", ""))
+                    self.genes.append(gene.replace("0x", "").zfill(8))
             else:
                 for x in range(number_of_genes):  
                     strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "").zfill(4)
@@ -32,12 +32,11 @@ class Genome():
                     gene = in_adr + out_adr + strength
                     self.genes.append(gene)
                    
-    def __str__(self) -> str:
+    def __str__(self,separator:str = ' ') -> str:
         output_str = ''
         for gene in self.genes:
-            output_str += (str(gene) + ' ')
-            output_str.strip()
-        return output_str
+            output_str += (str(gene) + separator)     
+        return output_str.strip(' ')
 
     def get_gene(self,index:int) -> str:
         return self.genes[index]

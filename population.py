@@ -28,15 +28,14 @@ class Population():
     
     def save_generation(self) -> None:
         file = open('Populations\\' + self.name + '.csv','a')
-        csv_writer = csv.writer(file)
+        csv_writer = csv.writer(file, lineterminator='\n')
         csv_writer.writerow(self.genomes)
 
     def load_generation(self,generation_number:int) -> None:
         file = open('Populations\\' + self.name + '.csv','r')
-        csv_reader = csv.reader(file)
+        csv_reader = csv.reader(file, lineterminator='\n')
         self.genomes = csv_reader[generation_number]
         
     def mutate_population(self):
         for genome in self.genomes:
             genome.mutate_gene()
-        
