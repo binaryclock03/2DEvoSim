@@ -5,7 +5,7 @@ import random
 Genome = NewType("Genome",object)
 
 class Genome():
-    def __init__(self,number_of_genes:int,genes:List = None,max_input_index:int = 128,max_output_index:int = 128,max_inter_index:int = 128) -> None:
+    def __init__(self,number_of_genes:int,max_input_index:int = None,max_output_index:int = None,max_inter_index:int = None,genes:List = None) -> None:
         
         self.number_of_genes = number_of_genes
         
@@ -24,7 +24,7 @@ class Genome():
                     self.genes.append(gene.replace("0x", ""))
             else:
                 for x in range(number_of_genes):  
-                    strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "")
+                    strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "").zfill(4)
                     possible_in_adr = list(range(self.max_input_index)) + list(range(128,self.max_inter_index+128))
                     in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
                     possible_out_adr = list(range(self.max_output_index)) + list(range(128,self.max_inter_index+128))
@@ -35,7 +35,8 @@ class Genome():
     def __str__(self) -> str:
         output_str = ''
         for gene in self.genes:
-            output_str += (str(gene)) + ' '
+            output_str += (str(gene) + ' ')
+            output_str.strip()
         return output_str
 
     def get_gene(self,index:int) -> str:
@@ -58,5 +59,4 @@ class Genome():
                 new_gene += gene[base]
         new_genes = self.genes
         new_genes[index] = new_gene
-        return Genome(self.number_of_genes,new_genes)
-
+        return Genome(self.number_of_genes,genes = new_genes)
