@@ -7,10 +7,10 @@ def testSensor():
     return 1
 
 def testAction(self):
-    print(self._address)
+    print(f"TEST ACTION REPORT: {self._address}")
 
 if __name__ == "__main__":
-    genome = Genome(10, max_input=10, max_output=10, max_inter=5)
+    genome = Genome(15, max_input=4, max_output=10, max_inter=2)
     brain = nt.NeuralNet()
     brain.build_net(genome)
 
@@ -23,11 +23,17 @@ if __name__ == "__main__":
         neuron = nt.ActionNeuron(testAction)
         neuron.set_address(index+256)
         brain.insertNeuron(index+256, neuron)
+    
+    brain.optimize()
 
     start = time.time()
-    for index in range(1):
-        brain.activate()
+    brain.activate()
     end = time.time()
     print(f"time elapsed {end-start}")
 
-    display.run(brain, max_input=10, max_output=10, max_inter=5)
+    # start = time.time()
+    # print(brain.check_paths())
+    # end = time.time()
+    # print(f"time elapsed {end-start}")
+    
+    display.run(brain)
