@@ -45,17 +45,38 @@ class Genome():
         if index < len(self.genes) and index >= 0:
             self.genes[index] = gene
 
-    def mutate_gene(self,index:int = None) -> Genome:
-        if index == None:
-            index = random.randint(0,len(self.genes)-1)
-        gene = self.genes[index]
+    def mutate_gene(self,index_of_gene:int = None) -> Genome:
+        if index_of_gene == None:
+            index_of_gene = random.randint(0,len(self.genes)-1)
+        gene = self.genes[index_of_gene]
         new_gene = ''
         base_to_change = random.randint(0,7)
         for base in range(8):
             if base == base_to_change:
-                new_gene += hex(random.randint(0,15)).replace("0x", "")
+                new_gene += hex(random.randint(0,15)).replace("0x", "").zfill(1)
             else:
                 new_gene += gene[base]
-        new_genes = self.genes
-        new_genes[index] = new_gene
+        new_genes = self.genes.copy()
+        new_genes[index_of_gene] = new_gene
+        return Genome(self.number_of_genes,genes = new_genes)
+    
+    def mutate_gene_bit_flip(self,index_of_gene:int = None) -> Genome:
+        if index_of_gene == None:
+            index_of_gene = random.randint(0,len(self.genes)-1)
+        gene = bin(int('0x'+self.genes[index_of_gene],16))
+        while len(gene) < 34:
+            gene = gene.replace('0b','0b0')
+        new_gene = '0b'
+        binary_base_to_flip = random.randint(0,31)
+        for base in range(32):
+            if base == binary_base_to_flip:
+                if gene[base+2] == '1':
+                    new_gene += '0'
+                else:
+                    new_gene += '1'
+            else:
+                new_gene += gene[base+2]
+        new_gene = hex(int(new_gene,0)).replace('0x','').zfill(8)
+        new_genes = self.genes.copy()
+        new_genes[index_of_gene] = new_gene
         return Genome(self.number_of_genes,genes = new_genes)
