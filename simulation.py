@@ -11,8 +11,11 @@ class Simulation():
     
     def add_to_sim(self, creature):
         creature.simulation = self
-        x = rand.randrange(0, self.grid_bounds[0])
-        y = rand.randrange(0, self.grid_bounds[1])
+        while True:
+            x = rand.randrange(0, self.grid_bounds[0])
+            y = rand.randrange(0, self.grid_bounds[1])
+            if not((x,y) in self.grid.items()):
+                break
         self.grid.update({creature.id: (x,y)})
         self.creatures.append(creature)
 
