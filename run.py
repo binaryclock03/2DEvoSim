@@ -13,7 +13,7 @@ if __name__ == "__main__":
     
     #Initialize Population
     population = pop.Population("6")
-    population.generate_genomes(250,4,2,2,1)
+    population.generate_genomes(250,4,len(sensor_neurons),len(action_neurons),1)
     population.save_generation()
     
     for gen in range(1000):
@@ -27,6 +27,8 @@ if __name__ == "__main__":
             creature.finalize()
             simulation.add_to_sim(creature)
 
+        #print(simulation.grid)
+        
         for x in range(200):
             simulation.simulate()
 
@@ -37,7 +39,7 @@ if __name__ == "__main__":
                 survivors.append(creep.genome)
         
         print(len(survivors))
-        population.new_generation(survivors,0.01)
+        population.new_generation(survivors,0.1)
         
         end = time.time()
         print(f"time elapsed {end-start}")
