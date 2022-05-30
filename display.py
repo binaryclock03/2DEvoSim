@@ -4,6 +4,7 @@ from matplotlib.pyplot import show
 import pygame as pg
 import netObjects as nt
 import genome as g
+import functions as f
  
 def show_brain(brain):
     pg.init()
@@ -27,7 +28,7 @@ def show_brain(brain):
     num2 = 0
     for key in list(brain.neurons.keys()):
         if key < 128:
-            x = int((((1800-40)/(num_sensors-1)) * (num1)) + 20)
+            x = int((((1800-100)/(num_sensors-1)) * (num1)) + 50)
             y = 200
             neurons.update({key:(x,y)})
             num1 += 1
@@ -36,7 +37,7 @@ def show_brain(brain):
             y = random.randrange(300,500)
             neurons.update({key:(x,y)})
         else:
-            x = int((((1800-40)/(num_actions-1)) * (num2)) + 20)
+            x = int((((1800-100)/(num_actions-1)) * (num2)) + 50)
             y = 600
             neurons.update({int(key):(x,y)})
             num2 += 1
@@ -100,7 +101,10 @@ def show_brain(brain):
         for key in neurons.keys():
             coords = neurons[key]
 
-            text = font.render(str(key), True, (255,255,255))
+            if key in f.neuron_name_dict.keys():
+                text = font.render(f.neuron_name_dict[key], True, (0,0,0))
+            else:
+                text = font.render(str(key), True, (255,255,255))
             text_rect = text.get_rect()
             text_rect.center = coords
 

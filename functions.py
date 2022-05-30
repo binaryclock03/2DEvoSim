@@ -3,9 +3,6 @@ import simulation as sim
 import util
 
 #sensors
-# def testSensor(creature, simulation):
-#     return 1
-
 def always_pos(creature, simulation):
     return 1
 
@@ -35,9 +32,6 @@ def get_dist_from_top(creature,simulation):
     
 
 #actions
-# def testAction(self, creature, simulation):
-#     print(f"TEST ACTION")
-
 def move_x(self, creature, simulation):
     if self.value < 0:
         simulation.move_creature(creature.id, -1, 0)
@@ -51,7 +45,6 @@ def move_y(self, creature, simulation):
         simulation.move_creature(creature.id, 0, 1)
 
 sensor_neurons = []
-#sensor_neurons.append(nt.SensorNeuron(testSensor))
 sensor_neurons.append(nt.SensorNeuron(always_pos))
 sensor_neurons.append(nt.SensorNeuron(always_off))
 sensor_neurons.append(nt.SensorNeuron(always_neg))
@@ -62,3 +55,14 @@ sensor_neurons.append(nt.SensorNeuron(get_dist_from_top))
 action_neurons = []
 action_neurons.append(nt.ActionNeuron(move_x, move_x))
 action_neurons.append(nt.ActionNeuron(move_y, move_y))
+
+neuron_name_dict = {
+    0:"always pos",
+    1:"always off",
+    2:"always neg",
+    3:"get y pos",
+    4:"get x pos",
+    5:"get y dist",
+    256:"move x",
+    257:"move y"
+}
