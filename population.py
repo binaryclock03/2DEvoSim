@@ -42,7 +42,7 @@ class Population():
             genome.mutate_gene()
     
     def reproduce(self,mutation_rate:float):
-        if len(self.genomes) > self.amount_of_genomes:
+        if len(self.genomes) < self.amount_of_genomes:
             amount_to_fill = self.amount_of_genomes - len(self.genomes)
             for i in range(amount_to_fill):
                 self.genomes.append(random.choice(self.genomes).copy())
@@ -52,7 +52,6 @@ class Population():
     def new_generation(self, survivors:list,mutation_rate:int):
         self.genomes = survivors
         self.generation += 1
-        #create genome object for each survivor
         self.reproduce(mutation_rate)
         
         self.save_generation()
