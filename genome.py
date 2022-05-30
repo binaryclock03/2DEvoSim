@@ -69,13 +69,14 @@ class Genome():
             possible_in_adr = list(range(self.max_input_index)) + (list(range(128,self.max_inter_index+128)))
             in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
             new_gene = in_adr + self.genes[index_of_gene][2:]
+
         elif to_change == 1:
             possible_out_adr = list(range(self.max_output_index)) + (list(range(128,self.max_inter_index+128)))
             out_adr = hex(random.choice(possible_out_adr)).replace("0x", "").zfill(2)
-            new_gene = self.genes[index_of_gene][0:3] + out_adr + self.genes[index_of_gene][4:]
+            new_gene = self.genes[index_of_gene][0:2] + out_adr + self.genes[index_of_gene][4:]
         else:
             strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "").zfill(4)
-            new_gene = self.genes[index_of_gene][0:5] + strength
+            new_gene = self.genes[index_of_gene][0:4] + strength
         return new_gene
             
             
