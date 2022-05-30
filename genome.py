@@ -1,3 +1,4 @@
+from operator import index
 from typing import *
 import random
 
@@ -25,9 +26,9 @@ class Genome():
             else:
                 for x in range(number_of_genes):  
                     strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "").zfill(4)
-                    possible_in_adr = list(range(self.max_input_index)) + list(range(128,self.max_inter_index+128))
+                    possible_in_adr = list(range(self.max_input_index)) + (list(range(128,self.max_inter_index+128)))
                     in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
-                    possible_out_adr = list(range(self.max_output_index)) + list(range(128,self.max_inter_index+128))
+                    possible_out_adr = list(range(self.max_output_index)) + (list(range(128,self.max_inter_index+128)))
                     out_adr = hex(random.choice(possible_out_adr)).replace("0x", "").zfill(2)
                     gene = in_adr + out_adr + strength
                     self.genes.append(gene)
@@ -60,6 +61,25 @@ class Genome():
         new_genes[index_of_gene] = new_gene
         return Genome(self.number_of_genes,genes = new_genes)
     
+    def mutate_gene_but_better(self,index_of_gene:int = None) -> str:
+        if index_of_gene == None:
+            index_of_gene = random.randint(0,len(self.genes)-1)
+        to_change = random.randint(0,2)
+        if to_change == 0:
+            possible_in_adr = list(range(self.max_input_index)) + (list(range(128,self.max_inter_index+128)))
+            in_adr = hex(random.choice(possible_in_adr)).replace("0x", "").zfill(2)
+            new_gene = in_adr + self.genes[index_of_gene][2:]
+        elif to_change == 1:
+            possible_out_adr = list(range(self.max_output_index)) + (list(range(128,self.max_inter_index+128)))
+            out_adr = hex(random.choice(possible_out_adr)).replace("0x", "").zfill(2)
+            new_gene = self.genes[index_of_gene][0:3] + out_adr + self.genes[index_of_gene][4:]
+        else:
+            strength = hex(random.randint(0,(16**4) - 1)).replace("0x", "").zfill(4)
+            new_gene = self.genes[index_of_gene][0:5] + strength
+        return new_gene
+            
+            
+    
     def gene_bit_flip(self,index_of_gene:int = None) -> str:
         if index_of_gene == None:
             index_of_gene = random.randint(0,len(self.genes)-1)
@@ -83,10 +103,11 @@ class Genome():
         new_genes = []
         for gene in range(len(self.genes)):
             if random.random() < mutation_rate:
-                new_genes.append(self.gene_bit_flip(gene))
+                new_genes.append(self.mutate_gene_but_better(gene))
             else:
                 new_genes.append(self.genes[gene])
         self.genes = new_genes
         
     def copy(self) -> Genome:
-        return Genome(self.number_of_genes,genes = self.genes)
+        return Genome(self.number_of_genes,self.max_input_index,self.max_output_index,self.max_inter_index,genes = self.genes)
+
