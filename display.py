@@ -108,10 +108,31 @@ def show_brain(brain):
         pg.display.update()
 
 def play():
+    creatures = {1:["deadbeef","deadbeef"], 2:["00000000","00000000"], 3:["ffffffff","ffffffff"]}
+    grid = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+
     pg.init()
     display = pg.display.set_mode((800,800))
     pg.display.set_caption("Creatures Playback Display")
 
-    for x, row in enumerate(grid):
-        for y, num in enumerate(row):
-            pass
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                return False
+            if event.type == pg.KEYDOWN:
+                keydown = pg.key.get_pressed()
+                if keydown[pg.K_1]:
+                    pass
+
+        display.fill((255,255,255))
+        
+        for x, row in enumerate(grid):
+            for y, num in enumerate(row):
+                color = creatures[grid[x][y]]
+
+                pg.draw.circle(display, (100,100,100), (x*20,y*20), 10)
+        
+        pg.display.update()
+
+play()

@@ -2,6 +2,7 @@ from genome import Genome
 from util import clamp, scale
 import random
 import math
+import copy
 
 class Neuron():
     def __init__(self):
@@ -28,6 +29,7 @@ class InterNeuron(Neuron):
     def activate(self, creature, simulation, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming)+sum(self.incoming_last))
+            self.incoming = []
         if action == "Action":
             self.incoming_last = self.incoming_next.copy()
             self.incoming_next = []
@@ -51,6 +53,7 @@ class ActionNeuron(Neuron):
     def activate(self, creature, simulation, action):
         if action == "Sum":
             self.value = math.tanh(sum(self.incoming)+sum(self.incoming_last))
+            self.incoming = []
         if action == "Action" and random.random()<abs(self.value):
             if self.value > 0:
                 self.pos_function(self, creature, simulation)
@@ -81,7 +84,7 @@ class NeuralNet():
             self.neurons.update({index:neuron})
     
     def insert_neuron(self, index:int, neuron:Neuron):
-        self.neurons[index] = neuron
+        self.neurons[index] = copy.copy(neuron)
 
     def optimize(self):
         valid_neurons = self.check_paths()
