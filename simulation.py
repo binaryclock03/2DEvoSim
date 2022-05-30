@@ -4,7 +4,7 @@ import util
 
 class Simulation():
     def __init__(self):
-        self.grid_bounds = (16, 16)
+        self.grid_bounds = (128, 128)
         self.grid = {}
         self.creatures:list = []
     
