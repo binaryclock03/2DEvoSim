@@ -21,11 +21,12 @@ class Simulation():
 
     def move_creature(self, id, dx, dy):
         x, y = self.get_creature_position(id)
-        # print(f"x{x} y{y}")
-        if not((x+dx,y+dy) in self.grid.items()):
-            x = util.clamp(x+dx, 0, self.grid_bounds[0])
-            y = util.clamp(y+dy, 0, self.grid_bounds[1])
+        x = util.clamp(x+dx, 0, self.grid_bounds[0])
+        y = util.clamp(y+dy, 0, self.grid_bounds[1])
+        if not((x,y) in self.grid.items()):
             self.grid.update({id: (x,y)})
+        else:
+            print("creature collided")
 
     def simulate(self):
         for creature in self.creatures:
