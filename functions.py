@@ -35,14 +35,18 @@ def get_dist_from_top(creature,simulation):
 def move_x(self, creature, simulation):
     if self.value < 0:
         simulation.move_creature(creature.id, -1, 0)
+        creature.dir = 2
     else:
         simulation.move_creature(creature.id, 1, 0)
+        creature.dir = 0
 
 def move_y(self, creature, simulation):
     if self.value < 0:
         simulation.move_creature(creature.id, 0, -1)
+        creature.dir = 3
     else:
         simulation.move_creature(creature.id, 0, 1)
+        creature.dir = 1
 
 sensor_neurons = []
 sensor_neurons.append(nt.SensorNeuron(always_pos))
