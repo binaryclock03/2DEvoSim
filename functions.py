@@ -36,7 +36,7 @@ def get_x_dist(creature,simulation):
     return output
 
 def oscillator(creature, simulation):
-    return math.sin(simulation.tick)
+    return math.sin(simulation.tick*math.pi*0.25)
     
 #actions
 def move_random(self, creature, simulation):
