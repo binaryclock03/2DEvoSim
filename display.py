@@ -1,8 +1,10 @@
 from math import sqrt
 import random
+from matplotlib.pyplot import show
 import pygame as pg
 import netObjects as nt
-
+import genome as g
+ 
 def show_brain(brain):
     pg.init()
     display = pg.display.set_mode((1800,800))
@@ -134,3 +136,12 @@ def play():
                 pg.draw.circle(display, (100,100,100), (x*20,y*20), 10)
         
         pg.display.update()
+
+#play()
+if __name__ == "__main__":
+    genes_string = '01005713 00000c47 0001d2778 010001e229 10100000'
+    re = g.Genome(5,genes=genes_string.split(" "))
+    brain = nt.NeuralNet()
+    brain.build_net(re)
+    brain.optimize()
+    show_brain(brain)
