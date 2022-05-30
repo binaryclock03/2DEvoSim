@@ -134,5 +134,3 @@ def play():
                 pg.draw.circle(display, (100,100,100), (x*20,y*20), 10)
         
         pg.display.update()
-
-play()
