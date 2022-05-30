@@ -29,8 +29,10 @@ class Simulation():
         y = util.clamp(y+dy, 0, self.grid_bounds[1])
         if not((x,y) in self.grid.items()):
             self.grid.update({id: (x,y)})
+            return [dx,dy]
         else:
             print("creature collided")
+            return [0,0]
 
     def simulate(self):
         for creature in self.creatures:
@@ -43,7 +45,8 @@ class Creature():
         self.brain = None
         self.genome = None
         self.simulation = None
-        self.dir = rand.randrange(0,3)
+        self.dir = [rand.randint(-1,1),rand.randint(-1,1)]
+        self.delta = [0,0]
 
     def simulate(self):
         self.brain.activate(self, self.simulation)
