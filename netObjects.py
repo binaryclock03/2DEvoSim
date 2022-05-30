@@ -19,7 +19,7 @@ class Neuron():
     def get_address(self):
         return self._address
 
-    def activate(self, simulation, action):
+    def activate(self, creature, simulation, action):
         pass
 
 class InterNeuron(Neuron):
