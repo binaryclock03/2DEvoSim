@@ -38,6 +38,7 @@ class Creature():
         self.brain = None
         self.genome = None
         self.simulation = None
+        self.dir = rand.randrange(0,3)
 
     def simulate(self):
         self.brain.activate(self, self.simulation)
