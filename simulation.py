@@ -7,6 +7,7 @@ class Simulation():
         self.grid_bounds = (128, 128)
         self.grid = {}
         self.creatures:list = []
+        self.tick = 0
     
     def add_to_sim(self, creature):
         creature.simulation = self
@@ -31,6 +32,7 @@ class Simulation():
     def simulate(self):
         for creature in self.creatures:
             creature.simulate()
+        self.tick += 1
 
 class Creature():
     def __init__(self, id):

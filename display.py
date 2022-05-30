@@ -94,6 +94,10 @@ def show_brain(brain):
                 arrowWidth = 10
                 arrowLength = 15
                 pg.draw.polygon(display, color, [(xa+dx*length*arrowPos+dx*arrowLength,ya+dy*length*arrowPos+dy*arrowLength), (xa+dx*length*arrowPos+dy*arrowWidth,ya+dy*length*arrowPos+dx*-arrowWidth), (xa+dx*length*arrowPos+dy*-arrowWidth,ya+dy*length*arrowPos+dx*arrowWidth)])
+                text = font.render(str(round(connection.strength,2)), True, (0,0,0))
+                text_rect = text.get_rect()
+                text_rect.center = (xa+dx*length*arrowPos+dx*arrowLength,ya+dy*length*arrowPos+dy*arrowLength)
+                display.blit(text, text_rect)
             else:
                 pg.draw.circle(display, color, (xa+7,ya-7), 12, width=4)
             i += 1
@@ -143,7 +147,7 @@ def play():
 
 #play()
 if __name__ == "__main__":
-    genes_string = '01005713 00000c47 0001d2778 010001e229 10100000'
+    genes_string = '0200eb57 0701ab67b 07802429e 060218a0 10100000'
     re = g.Genome(5,genes=genes_string.split(" "))
     brain = nt.NeuralNet()
     brain.build_net(re)
