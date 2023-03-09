@@ -39,6 +39,8 @@ def oscillator(creature, simulation):
     return math.sin(simulation.tick*math.pi*0.25)
     
 #actions
+def do_nothing():
+    pass
 
 def move_x(self, creature, simulation):
     if creature.delta[0] == 0:
@@ -104,13 +106,15 @@ action_neurons.append(nt.ActionNeuron(move_rnd, move_rnd))
 neuron_name_dict = {
     0:"always on",
     1:"always off",
-    2:"get x pos",
-    3:"get y pos",
-    4:"get x dist",
-    5:"get y dist",
-    6:"oscillator",
-    256:"move x",
-    257:"move y",
-    258:"move fwd",
-    259:"move rnd"
+    2:"cbias x",
+    3:"cbias y",
+    4:"pos x",
+    5:"pos y",
+    6:"age",
+    256:"do_nothing",
+    257:"move x",
+    258:"move y",
+    259:"move rand",
+    260:"move FB",
+    261:"move RL"
 }

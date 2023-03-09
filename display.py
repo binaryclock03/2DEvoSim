@@ -1,10 +1,12 @@
 from math import sqrt
 import random
+import time
 from matplotlib.pyplot import show
 import pygame as pg
 import netObjects as nt
 import genome as g
 import functions as f
+import util
  
 def show_brain(brain):
     pg.init()
@@ -28,7 +30,7 @@ def show_brain(brain):
     num2 = 0
     for key in list(brain.neurons.keys()):
         if key < 128:
-            x = int((((1800-100)/(num_sensors-1)) * (num1)) + 50)
+            x = int((((1800-100)/(num_sensors)) * (num1)) + 50)
             y = 200
             neurons.update({key:(x,y)})
             num1 += 1
@@ -118,38 +120,53 @@ def show_brain(brain):
         pg.display.update()
 
 def play():
-    creatures = {1:["deadbeef","deadbeef"], 2:["00000000","00000000"], 3:["ffffffff","ffffffff"]}
-    grid = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+    with open("Playbacks/PYYY_380.csv") as f:
+        gridsize = (128,128) 
+        reader = f.readline()
 
-    pg.init()
-    display = pg.display.set_mode((800,800))
-    pg.display.set_caption("Creatures Playback Display")
+        pg.init()
+        display = pg.display.set_mode((800,800))
+        pg.display.set_caption("Creatures Playback Display")
 
-    while True:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                return False
-            if event.type == pg.KEYDOWN:
-                keydown = pg.key.get_pressed()
-                if keydown[pg.K_1]:
-                    pass
+        time1 = time.time()
+        time2 = time.time()
+        while True:
+            if (time2 - time1) > 0.1:
+                time1 = time.time()
+                reader = f.readline()
+            
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    return False
+                if event.type == pg.KEYDOWN:
+                    keydown = pg.key.get_pressed()
+                    if keydown[pg.K_1]:
+                        pass
 
-        display.fill((255,255,255))
-        
-        for x, row in enumerate(grid):
-            for y, num in enumerate(row):
-                color = creatures[grid[x][y]]
+            display.fill((255,255,255))
 
-                pg.draw.circle(display, (100,100,100), (x*20,y*20), 10)
-        
-        pg.display.update()
+            creatures = reader.split(",")
+            del creatures[-1]
 
-#play()
-if __name__ == "__main__":
-    genes_string = '0200eb57 0701ab67b 07802429e 060218a0 10100000'
-    re = g.Genome(5,genes=genes_string.split(" "))
+            for i in creatures:
+                x = int(i) % gridsize[0]
+                y = (int(i) - x)/gridsize[1]
+
+                color = (0,0,0)
+                pg.draw.circle(display, color, (x*6+16,y*6+16), 3)
+            
+            time2 = time.time()
+
+            pg.display.update()
+
+if __name__ == "__main__" and True:
+    genes_string = "01830f55 8183f615 0003f615 00830931 0483b98d 8183b98d 800210f6 8102297d 8105297d 040234c6 0481a707 0281f24d 8103f24d 81039de3 83030315 05050315"
+    re = g.Genome(16,genes=genes_string.split(" "))
     brain = nt.NeuralNet()
     brain.build_net(re)
     brain.optimize()
     show_brain(brain)
+
+if __name__ == "__main__" and True:
+    play()
